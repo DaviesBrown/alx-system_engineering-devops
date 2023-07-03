@@ -1,3 +1,4 @@
+# install nginx web server
 class nginx_config {
   package { 'nginx':
     ensure => installed,
