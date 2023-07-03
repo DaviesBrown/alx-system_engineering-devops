@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# redirect to another page
+# Install Nginx web server if not already installed
+apt-get update
+apt-get install -y nginx
+
+# Update the Nginx configuration using sed
+sed -i '/server_name _;/a \
+\
+    location \/redirect_me \{\
+        return 301 https:\/\/example.com\/another-page;\
+    \}' /etc/nginx/sites-available/default
+
+# Test the Nginx configuration for syntax errors
+nginx -t
+
+# Restart Nginx to apply the new configuration
+systemctl restart nginx
