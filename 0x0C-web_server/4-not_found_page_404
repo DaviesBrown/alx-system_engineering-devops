@@ -8,12 +8,7 @@ apt-get install -y nginx
 echo "Ceci n'est pas une page." > sudo tee /var/www/html/404.html
 
 # Update the Nginx configuration to include the custom 404 page
-sed -i '/listen \[::\]:80 default_server;/a \
-\
-    error_page 404 /404.html;\
-    location = /404.html \{\
-        internal;\
-    \}' /etc/nginx/sites-available/default
+sed -i '/listen \[::\]:80 default_server;/a \terror_page 404 /404.html;\tlocation = /404.html \{\t\tinternal;\}' /etc/nginx/sites-available/default
 
 # Test the Nginx configuration for syntax errors
 nginx -t
