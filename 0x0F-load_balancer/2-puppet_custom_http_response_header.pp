@@ -19,7 +19,7 @@ file_line { 'http_header':
 }
 
 exec { 'restart_nginx':
-  command => '/usr/sbin/service nginx restart',
-  path    => '/usr/bin',
+  command     => '/usr/sbin/service nginx restart',
+  path        => '/usr/bin',
   refreshonly => true,
 }
