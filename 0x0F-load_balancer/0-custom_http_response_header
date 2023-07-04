@@ -15,4 +15,4 @@ sudo sed -i '/listen 80 default_server;/a \    error_page 404 /404.html;\n    lo
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
 # Restart Nginx to apply the changes
-sudo systemctl restart nginx
+sudo service nginx restart
