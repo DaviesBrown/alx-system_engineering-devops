@@ -1,10 +1,9 @@
+# ufw config file
 *nat
 :PREROUTING ACCEPT [15:848]
 :INPUT ACCEPT [12:720]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -p tcp -m tcp --dport 8080 -j REDIRECT --to-ports 80
--A PREROUTING -p tcp -m tcp --dport 8080 -j REDIRECT --to-ports 80
 -A PREROUTING -p tcp -m tcp --dport 8080 -j REDIRECT --to-ports 80
 COMMIT
 # Completed on Wed Jul 19 13:17:21 2023
