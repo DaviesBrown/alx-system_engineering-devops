@@ -22,5 +22,6 @@ if __name__ == '__main__':
         json.append(csv_format)
     with open(filename, 'w', newline="") as file:
         fieldnames = ['userId', 'username', 'completed', 'title']
-        csvwriter = csv.DictWriter(file, fieldnames=fieldnames)
+        csvwriter = csv\
+            .DictWriter(file, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
         csvwriter.writerows(json)
