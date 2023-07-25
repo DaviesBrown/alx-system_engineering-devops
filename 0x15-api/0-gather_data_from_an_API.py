@@ -5,12 +5,16 @@ import sys
 
 if __name__ == '__main__':
     id = sys.argv[1]
-    user = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}').json()
-    todos = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}/todos').json()
+    user = requests\
+        .get(f'https://jsonplaceholder.typicode.com/users/{id}')
+    user = user.json()
+    todos = requests\
+        .get(f'https://jsonplaceholder.typicode.com/users/{id}/todos')
+    todos = todos.json()
     count = 0
     title = []
     for i in todos:
-        if i['completed'] == True:
+        if i['completed'] is True:
             count += 1
             title.append(i['title'])
 

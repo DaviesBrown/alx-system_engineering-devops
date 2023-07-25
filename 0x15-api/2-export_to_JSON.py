@@ -6,8 +6,10 @@ import sys
 
 if __name__ == '__main__':
     id = sys.argv[1]
-    user = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}').json()
-    todos = requests.get(f'https://jsonplaceholder.typicode.com/users/{id}/todos').json()
+    user = requests\
+        .get(f'https://jsonplaceholder.typicode.com/users/{id}').json()
+    todos = requests\
+        .get(f'https://jsonplaceholder.typicode.com/users/{id}/todos').json()
     json_list = []
     for todo in todos:
         json_format = {

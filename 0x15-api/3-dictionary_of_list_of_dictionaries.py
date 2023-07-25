@@ -9,12 +9,14 @@ if __name__ == '__main__':
     for user in users:
         user_id = user['id']
         todo_list = []
-        todos = requests.get(f'https://jsonplaceholder.typicode.com/users/{user_id}/todos').json()
+        todos = requests\
+            .get(f'https://jsonplaceholder.typicode.com/users/{user_id}/todos')
+        todos = todos.json()
         for todo in todos:
             json_format = {
-            'username': user['username'],
-            'task': todo['title'],
-            'completed': todo['completed']
+                'username': user['username'],
+                'task': todo['title'],
+                'completed': todo['completed']
             }
             todo_list.append(json_format)
         json_dict[user_id] = todo_list
