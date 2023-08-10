@@ -2,6 +2,7 @@
 """Subreddit TOP 10 hot posts"""
 import requests
 
+
 def top_ten(subreddit):
     """
     subreddit top 10 post

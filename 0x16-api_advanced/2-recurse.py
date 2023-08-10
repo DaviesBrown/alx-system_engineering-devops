@@ -2,6 +2,7 @@
 """get title of hot of all in a subreddit"""
 import requests
 
+
 def recurse(subreddit, hot_list=[], after=None):
     """
     Recursively return the titles of hot posts from a given subreddit.
@@ -9,8 +10,7 @@ def recurse(subreddit, hot_list=[], after=None):
     Parameters:
     subreddit (str): The name of the subreddit to fetch hot posts from.
     hot_list (list): A list of all occurrences of the titles.
-    after (str, optional): The post ID to start fetching from in the next page. Default is None.
-    
+    after (str, optional): The post ID to start fetching next
     Returns:
     None
     """
@@ -29,7 +29,6 @@ def recurse(subreddit, hot_list=[], after=None):
     if response.status_code == 200:
         data = response.json()
         posts = data["data"]["children"]
-        
         for post in posts:
             title = post["data"]["title"]
             hot_list.append(title)

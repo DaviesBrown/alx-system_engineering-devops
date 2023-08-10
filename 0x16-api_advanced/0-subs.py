@@ -2,16 +2,20 @@
 """Number of subreddit total subscribers"""
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     number of subredit subscribers
     Parameters:
     subreddit (str): The name of the subreddit to fetch number of post.
-    
+
     Returns:
     Number of subscriber"""
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    response = requests.get(url)
+    headers = {
+        "User-Agent": "YourUserAgentHere"
+    }
+    response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
         data = response.json()
         subscribers = data["data"]["subscribers"]
