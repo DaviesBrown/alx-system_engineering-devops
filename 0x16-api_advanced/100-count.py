@@ -1,56 +1,54 @@
 #!/usr/bin/python3
-"""count number of words that are in word list"""
+""" raddit api"""
+
+import json
 import requests
 
 
-def count_words(subreddit, word_list, after=None, word_counts=None):
-    """
-    Recursively counts occurrences of specified keywords in the titles
-    of hot posts from a given subreddit.
+def count_words(subreddit, word_list, after="", count=[]):
+    """count all words"""
 
-    Parameters:
-    subreddit (str): The name of the subreddit to fetch hot posts from.
-    word_list (list): A list of keywords to count occurrences of in the
-                        titles.
-    after (str, optional): The post ID to start fetching from in the
-                        next page. Default is None.
-    word_counts (dict, optional): A dictionary to store the counts of
-                        keywords. Default is None.
-    Returns:
-    None"""
-    if not subreddit or not word_list:
-        return
-    if word_counts is None:
-        word_counts = {}
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    headers = {
-        "User-Agent": "YourUserAgentHere"
-    }
-    params = {
-        "limit": 100,  # Number of posts per request
-        "after": after  # After which post to continue fetching
-    }
-    response = requests.get(url, headers=headers, params=params)
-    if response.status_code == 200:
-        data = response.json()
-        posts = data["data"]["children"]
-        for post in posts:
-            title = post["data"]["title"]
-            lowercase_title = title.lower()
-            for word in word_list:
-                lowercase_word = word.lower()
-                if f" {lowercase_word} " in f" {lowercase_title} ":
-                    word_counts[lowercase_word] = \
-                        word_counts.get(lowercase_word, 0) + 1
-        if data["data"]["after"]:
-            count_words(subreddit,
-                        word_list,
-                        after=data["data"]["after"],
-                        word_counts=word_counts)
+    if after == "":
+        count = [0] * len(word_list)
+
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    request = requests.get(url,
+                           params={'after': after},
+                           allow_redirects=False,
+                           headers={'user-agent': 'bhalut'})
+
+    if request.status_code == 200:
+        data = request.json()
+
+        for topic in (data['data']['children']):
+            for word in topic['data']['title'].split():
+                for i in range(len(word_list)):
+                    if word_list[i].lower() == word.lower():
+                        count[i] += 1
+
+        after = data['data']['after']
+        if after is None:
+            save = []
+            for i in range(len(word_list)):
+                for j in range(i + 1, len(word_list)):
+                    if word_list[i].lower() == word_list[j].lower():
+                        save.append(j)
+                        count[i] += count[j]
+
+            for i in range(len(word_list)):
+                for j in range(i, len(word_list)):
+                    if (count[j] > count[i] or
+                            (word_list[i] > word_list[j] and
+                             count[j] == count[i])):
+                        aux = count[i]
+                        count[i] = count[j]
+                        count[j] = aux
+                        aux = word_list[i]
+                        word_list[i] = word_list[j]
+                        word_list[j] = aux
+
+            for i in range(len(word_list)):
+                if (count[i] > 0) and i not in save:
+                    print("{}: {}".format(word_list[i].lower(), count[i]))
         else:
-            sorted_counts = sorted(word_counts.items(),
-                                   key=lambda x: (-x[1], x[0]))
-            for word, count in sorted_counts:
-                print(f"{word}: {count}")
-    else:
-        return
+            count_words(subreddit, word_list, after, count)
