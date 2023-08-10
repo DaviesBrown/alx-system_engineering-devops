@@ -25,14 +25,12 @@ def recurse(subreddit, hot_list=[], after=None):
         "after": after  # After which post to continue fetching
     }
     response = requests.get(url, headers=headers, params=params)
-    print(response.status_code)
     if response.status_code == 200:
         data = response.json()
         posts = data["data"]["children"]
         for post in posts:
             title = post["data"]["title"]
             hot_list.append(title)
-        print(hot_list)
         if data["data"]["after"]:
             recurse(subreddit, hot_list, after=data["data"]["after"])
         return hot_list
